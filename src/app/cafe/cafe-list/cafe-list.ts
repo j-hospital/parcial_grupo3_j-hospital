@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { Cafe } from '../cafe';
 import { CafeService } from '../cafe-service';
 
@@ -12,6 +12,14 @@ export class CafeList implements OnInit {
   private readonly cafeService = inject(CafeService);
 
   cafes = signal<Cafe[]>([]);
+
+  totalOrigen = computed(
+    () => this.cafes().filter((cafe) => cafe.tipo === 'Café de Origen').length
+  );
+
+  totalBlend = computed(
+    () => this.cafes().filter((cafe) => cafe.tipo === 'Blend').length
+  );
 
   ngOnInit(): void {
     this.cafeService.getCafes().subscribe((cafes) => {
