@@ -1,0 +1,13 @@
+.titulo {
+  font-size: 1.8rem;
+}
+
+.banner {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.tabla-cafes {
+  width: 65%;
+}
