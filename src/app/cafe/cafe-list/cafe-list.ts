@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { Cafe } from '../cafe';
+import { CafeService } from '../cafe-service';
 
 @Component({
   selector: 'app-cafe-list',
@@ -6,4 +8,14 @@ import { Component } from '@angular/core';
   styleUrl: './cafe-list.css',
   templateUrl: './cafe-list.html',
 })
-export class CafeList {}
+export class CafeList implements OnInit {
+  private readonly cafeService = inject(CafeService);
+
+  cafes = signal<Cafe[]>([]);
+
+  ngOnInit(): void {
+    this.cafeService.getCafes().subscribe((cafes) => {
+      this.cafes.set(cafes);
+    });
+  }
+}
