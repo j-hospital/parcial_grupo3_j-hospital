@@ -1,14 +1,21 @@
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
+import { AppModule } from './app-module';
+import { CafeService } from './cafe/cafe-service';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        App
+      imports: [AppModule],
+      providers: [
+        {
+          provide: CafeService,
+          useValue: { getCafes: vi.fn().mockReturnValue(of([])) },
+        },
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   it('should create the app', () => {
@@ -17,10 +24,10 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
+  it('should render the cafe list', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, parcial-grupo3-j-hospital');
+    expect(compiled.querySelector('app-cafe-list')).not.toBeNull();
   });
 });
